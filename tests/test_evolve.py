@@ -1,11 +1,15 @@
 import unittest
 import numpy as np
 import sys
-sys.path.append("../src")
+import os
 
-from initialize_system import initialize_system
-from potential import potential_function
-from evolve import evolve_wavefunction
+# Insert the parent directory (the project root) into sys.path
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, PROJECT_ROOT)
+
+from src.initialize_system import initialize_system
+from src.potential import potential_function
+from src.evolve import evolve_wavefunction
 
 class TestEvolve(unittest.TestCase):
     def test_evolve_free_particle(self):
@@ -25,8 +29,8 @@ class TestEvolve(unittest.TestCase):
         # Evolve a few steps
         for _ in range(5):
             psi = evolve_wavefunction(psi, V, dt, dx, k, hbar, m)
-        
-        # Just ensure code runs; real test would check wave packet broadening, norm, etc.
+
+        # Just ensure code runs; a real test might check wave packet broadening, norm, etc.
         self.assertEqual(len(psi), N)
 
 if __name__ == '__main__':

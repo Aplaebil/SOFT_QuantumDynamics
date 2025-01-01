@@ -1,8 +1,13 @@
 import unittest
 import numpy as np
 import sys
-sys.path.append("../src")
-from potential import potential_function
+import os
+
+# Insert the parent directory (the project root) into sys.path
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, PROJECT_ROOT)
+
+from src.potential import potential_function
 
 class TestPotential(unittest.TestCase):
     def test_free_potential(self):

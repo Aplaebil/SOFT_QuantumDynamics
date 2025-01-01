@@ -1,9 +1,1 @@
-Install the dependencies:
-  pip install -r requirements.txt
-
-To run an example (e.g., barrier potential): 
- python examples/run_barrier_potential.py
-
-To explore interactive notebooks:
- jupyter notebook notebooks/SOFT_demo.ipynb
 
