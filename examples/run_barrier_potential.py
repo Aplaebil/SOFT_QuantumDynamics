@@ -4,13 +4,11 @@ Example script to demonstrate quantum tunneling through a barrier.
 
 import numpy as np
 import sys
-# Adjust import path if needed
-sys.path.append("../src")
 
-from initialize_system import initialize_system
-from potential import potential_function
-from evolve import evolve_wavefunction
-from visualize import visualize_results
+from src.initialize_system import initialize_system
+from src.potential import potential_function
+from src.evolve import evolve_wavefunction
+from src.visualize import visualize_results
 
 def main():
     # Simulation parameters
