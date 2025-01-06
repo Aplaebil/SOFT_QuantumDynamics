@@ -7,15 +7,26 @@ import numpy as np
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, PROJECT_ROOT)
 
-from src.visualize import visualize_results
+from src.visualize import visualize_results_3d
 
-class TestVisualize(unittest.TestCase):
-    def test_visualize(self):
-        # Just ensure the function runs without error
-        x = np.linspace(-5, 5, 101)
-        psi = np.exp(-x**2)
-        visualize_results(x, psi, step=0, potential=None, save_fig=True)
-        # A real test might check if the PNG file was created, etc.
+class TestVisualize3D(unittest.TestCase):
+    def test_visualize_3d(self):
+        """
+        Ensure the function runs without error for a 3D slice plot.
+        """
+        # Create a small 3D wavefunction
+        N = 16
+        x = np.linspace(-5, 5, N, endpoint=False)
+        X, Y, Z = np.meshgrid(x, x, x, indexing='ij')
+        psi = np.exp(-(X**2 + Y**2 + Z**2))
+
+        # We won't define a real potential here, just a placeholder
+        potential = None
+
+        # Just check if we can produce a slice
+        # This should create a plot, either show or save.
+        # We'll do save_fig=True to avoid an interactive window in some CI environments.
+        visualize_results_3d(X, Y, psi, step=0, potential=potential, z_index=N//2, save_fig=True)
 
 if __name__ == '__main__':
     unittest.main()
