@@ -1,57 +1,71 @@
-"""
-Example script for a 3D harmonic oscillator.
-"""
 
 import numpy as np
-import sys
-
 from src.initialize_system import initialize_system
 from src.potential import potential_function
 from src.evolve import evolve_wavefunction
 from src.visualize import visualize_results_3d
 
 def main():
-    # --- Simulation Parameters ---
-    xmin, xmax = -10.0, 10.0
-    N = 64
-    x0, y0, z0 = 0.0, 0.0, 0.0
-    sigma = 1.0
-    kx0, ky0, kz0 = 0.0, 0.0, 0.0  # no initial momentum
+    print("3D Harmonic Oscillator Simulation!")
+    print("Enter the following parameters within the specified intervals:\n")
 
-    hbar = 1.0
-    m = 1.0
-    omega = 1.0  # oscillator frequency (assume same in x,y,z)
-    
-    dt = 0.01
-    total_time = 5.0
+    # Prompt user for parameters
+    xmin = float(input("Enter xmin (e.g., -20.0 to -5.0): "))
+    while xmin > -5.0 or xmin < -20.0:
+        xmin = float(input("Invalid input! Enter xmin in the range -20.0 to -5.0: "))
+
+    xmax = float(input("Enter xmax (e.g., 5.0 to 20.0): "))
+    while xmax < 5.0 or xmax > 20.0:
+        xmax = float(input("Invalid input! Enter xmax in the range 5.0 to 20.0: "))
+
+    N = int(input("Enter grid size N (e.g., 32 to 128, must be a power of 2): "))
+    while not (32 <= N <= 128 and (N & (N - 1)) == 0):  # Check if N is a power of 2
+        N = int(input("Invalid input! Enter N in the range 32 to 128 (must be a power of 2): "))
+
+    x0 = float(input("Enter initial wave packet x0 (e.g., xmin < x0 < xmax): "))
+    while not (xmin < x0 < xmax):
+        x0 = float(input(f"Invalid input! Enter x0 in the range ({xmin}, {xmax}): "))
+
+    y0 = float(input("Enter initial wave packet y0 (e.g., -5.0 to 5.0): "))
+    while y0 < -5.0 or y0 > 5.0:
+        y0 = float(input("Invalid input! Enter y0 in the range -5.0 to 5.0: "))
+
+    z0 = float(input("Enter initial wave packet z0 (e.g., -5.0 to 5.0): "))
+    while z0 < -5.0 or z0 > 5.0:
+        z0 = float(input("Invalid input! Enter z0 in the range -5.0 to 5.0: "))
+
+    sigma = float(input("Enter wave packet width sigma (e.g., 0.5 to 2.0): "))
+    while sigma < 0.5 or sigma > 2.0:
+        sigma = float(input("Invalid input! Enter sigma in the range 0.5 to 2.0: "))
+
+    omega = float(input("Enter harmonic oscillator frequency omega (e.g., 0.1 to 5.0): "))
+    while omega < 0.1 or omega > 5.0:
+        omega = float(input("Invalid input! Enter omega in the range 0.1 to 5.0: "))
+
+    total_time = float(input("Enter total simulation time (e.g., 0.5 to 10.0): "))
+    while total_time < 0.5 or total_time > 10.0:
+        total_time = float(input("Invalid input! Enter total_time in the range 0.5 to 10.0: "))
+
+    dt = float(input("Enter time step dt (e.g., 0.001 to 0.05): "))
+    while dt < 0.001 or dt > 0.05:
+        dt = float(input("Invalid input! Enter dt in the range 0.001 to 0.05: "))
 
     # Initialize system (3D)
-    (X, Y, Z,
-     dx,
-     psi,
-     KX, KY, KZ,
-     dk) = initialize_system(
-         xmin, xmax, N,
-         x0, y0, z0,
-         sigma,
-         kx0, ky0, kz0,
-         hbar, m
+    (X, Y, Z, dx, psi, KX, KY, KZ, dk) = initialize_system(
+        xmin, xmax, N, x0, y0, z0, sigma, 0.0, 0.0, 0.0, hbar=1.0, m=1.0
     )
 
-    # 3D Harmonic potential
-    V = potential_function(X, Y, Z, potential_type='harmonic', m=m, omega=omega)
+    # Define harmonic potential
+    V = potential_function(X, Y, Z, potential_type='harmonic', m=1.0, omega=omega)
 
+    # Time evolution
     num_steps = int(total_time / dt)
-    plot_interval = max(1, num_steps // 10)
-
     for step in range(num_steps):
-        psi = evolve_wavefunction(psi, V, dt, dx, KX, KY, KZ, hbar, m)
+        psi = evolve_wavefunction(psi, V, dt, dx, KX, KY, KZ, hbar=1.0, m=1.0)
 
-        if step % plot_interval == 0:
-            visualize_results_3d(X, Y, psi, step, potential=V,
-                                 z_index=N//2, save_fig=False)
-
-    print("3D Harmonic oscillator simulation finished.")
+    # Visualize final result in Jupyter
+    visualize_results_3d(X, Y, psi, step=num_steps, potential=V, z_index=N//2, save_fig=False)
+    print("3D Harmonic Oscillator Simulation finished!")
 
 if __name__ == "__main__":
     main()

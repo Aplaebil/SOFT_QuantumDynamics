@@ -1,81 +1,74 @@
-"""
-Example script demonstrating double-slit-like interference in 3D.
-"""
 
 import numpy as np
-import sys
-
 from src.initialize_system import initialize_system
 from src.potential import potential_function
 from src.evolve import evolve_wavefunction
 from src.visualize import visualize_results_3d
 
 def main():
-    # --- Simulation Parameters ---
-    xmin, xmax = -10.0, 10.0
-    N = 64
-    x0, y0, z0 = -8.0, 0.0, 0.0
-    sigma = 0.5
-    kx0, ky0, kz0 = 5.0, 0.0, 0.0  # heading in +x direction
+    print("3D Double-Slit Simulation!")
+    print("Enter the following parameters within the specified intervals:\n")
 
-    hbar = 1.0
-    m = 1.0
-    dt = 0.005
-    total_time = 2.0
+    xmin = float(input("Enter xmin (e.g., -20.0 to -5.0): "))
+    while xmin > -5.0 or xmin < -20.0:
+        xmin = float(input("Invalid input! Enter xmin in the range -20.0 to -5.0: "))
+
+    xmax = float(input("Enter xmax (e.g., 5.0 to 20.0): "))
+    while xmax < 5.0 or xmax > 20.0:
+        xmax = float(input("Invalid input! Enter xmax in the range 5.0 to 20.0: "))
+
+    N = int(input("Enter grid size N (e.g., 32 to 128, must be a power of 2): "))
+    while not (32 <= N <= 128 and (N & (N - 1)) == 0):
+        N = int(input("Invalid input! Enter N in the range 32 to 128 (must be a power of 2): "))
+
+    x0 = float(input("Enter initial wave packet x0 (e.g., xmin < x0 < xmax): "))
+    while not (xmin < x0 < xmax):
+        x0 = float(input(f"Invalid input! Enter x0 in the range ({xmin}, {xmax}): "))
+
+    sigma = float(input("Enter wave packet width sigma (e.g., 0.5 to 2.0): "))
+    while sigma < 0.5 or sigma > 2.0:
+        sigma = float(input("Invalid input! Enter sigma in the range 0.5 to 2.0: "))
+
+    V0 = float(input("Enter barrier height V0 (e.g., 10.0 to 50.0): "))
+    while V0 < 10.0 or V0 > 50.0:
+        V0 = float(input("Invalid input! Enter V0 in the range 10.0 to 50.0: "))
+
+    total_time = float(input("Enter total simulation time (e.g., 0.5 to 10.0): "))
+    while total_time < 0.5 or total_time > 10.0:
+        total_time = float(input("Invalid input! Enter total_time in the range 0.5 to 10.0: "))
+
+    dt = float(input("Enter time step dt (e.g., 0.001 to 0.05): "))
+    while dt < 0.001 or dt > 0.05:
+        dt = float(input("Invalid input! Enter dt in the range 0.001 to 0.05: "))
 
     # Initialize system (3D)
-    (X, Y, Z,
-     dx,
-     psi,
-     KX, KY, KZ,
-     dk) = initialize_system(
-         xmin, xmax, N,
-         x0, y0, z0,
-         sigma,
-         kx0, ky0, kz0,
-         hbar, m
+    (X, Y, Z, dx, psi, KX, KY, KZ, dk) = initialize_system(
+        xmin, xmax, N, x0, 0.0, 0.0, sigma, 5.0, 0.0, 0.0, hbar=1.0, m=1.0
     )
 
-    # 3D "double-slit" potential: you can define "barriers" around x=0, but open slits in y,z
-    # For demonstration, let's define it as a custom potential:
-    V0 = 50.0
-    V = double_slit_3d(X, Y, Z, V0)  # We'll define a local function below
+    # Double-slit potential
+    V = double_slit_3d(X, Y, Z, V0)
 
+    # Time evolution
     num_steps = int(total_time / dt)
-    plot_interval = max(1, num_steps // 10)
-
     for step in range(num_steps):
-        psi = evolve_wavefunction(psi, V, dt, dx, KX, KY, KZ, hbar, m)
+        psi = evolve_wavefunction(psi, V, dt, dx, KX, KY, KZ, hbar=1.0, m=1.0)
 
-        if step % plot_interval == 0:
-            visualize_results_3d(X, Y, psi, step, potential=V,
-                                 z_index=N//2, save_fig=False)
-
-    print("3D Double-slit simulation finished.")
+    # Visualize results
+    visualize_results_3d(X, Y, psi, step=num_steps, potential=V, z_index=N//2, save_fig=False)
+    print("3D Double-Slit Simulation finished.")
 
 def double_slit_3d(X, Y, Z, V0):
-    """
-    Return a 3D potential array that models two slits in the yz-plane at x=0.
-    Slits are open in two bands of y, otherwise there's a barrier of height V0.
-    """
     V = np.zeros_like(X)
-    # We'll define a region around x=0 as the barrier, except for two "slits" in y
-    thickness = 0.5    # thickness in x-dimension
-    slit_center_sep = 1.5  # separation of slit centers in y
-    slit_half_width = 0.2  # half the width of each slit in y
+    thickness = 0.5
+    slit_center_sep = 1.5
+    slit_half_width = 0.2
 
-    # The "barrier" region is near x=0
-    mask_barrier = (np.abs(X) < thickness/2.0)
-
-    # Within that region, let's open two slits in y
-    # Slit 1 around y = +slit_center_sep/2, slit 2 around y = -slit_center_sep/2
-    slit1 = (Y > (slit_center_sep/2 - slit_half_width)) & (Y < (slit_center_sep/2 + slit_half_width))
-    slit2 = (Y > -(slit_center_sep/2 + slit_half_width)) & (Y < -(slit_center_sep/2 - slit_half_width))
-
-    # So the barrier = V0 everywhere in the region mask_barrier, except where slit1 or slit2 is True
+    mask_barrier = (np.abs(X) < thickness / 2.0)
+    slit1 = (Y > (slit_center_sep / 2 - slit_half_width)) & (Y < (slit_center_sep / 2 + slit_half_width))
+    slit2 = (Y > -(slit_center_sep / 2 + slit_half_width)) & (Y < -(slit_center_sep / 2 - slit_half_width))
     barrier_region = mask_barrier & ~(slit1 | slit2)
     V[barrier_region] = V0
-
     return V
 
 if __name__ == "__main__":
