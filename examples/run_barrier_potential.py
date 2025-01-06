@@ -9,8 +9,8 @@ from src.evolve import evolve_wavefunction
 from src.visualize import visualize_results_3d
 
 def main():
-    print("Welcome to the 3D Barrier Potential Simulation!")
-    print("Please enter the following parameters within the specified intervals:\n")
+    print("3D Barrier Potential Simulation")
+    print("Enter the following parameters within the specified intervals:\n")
 
     # Prompt user for simulation parameters with intervals
     xmin = float(input("Enter xmin (e.g., -20.0 to -5.0): "))
