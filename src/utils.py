@@ -1,53 +1,54 @@
 import numpy as np
 
-def compute_total_energy(psi, x, k, V, hbar, m, dx):
+def compute_total_energy(psi, V, dx, KX, KY, KZ, hbar, m):
     """
-    Compute the expectation value of total energy = T + V.
-    
+    Compute the 3D expectation value of total energy = T + V.
+
     Parameters
     ----------
-    psi : np.ndarray
-        Wave function in position space.
-    x : np.ndarray
-        Position grid.
-    k : np.ndarray
-        Momentum grid.
-    V : np.ndarray
-        Potential array in position space.
+    psi : np.ndarray (3D)
+        Wave function in position space, shape (N, N, N).
+    V : np.ndarray (3D)
+        Potential array in position space, same shape.
+    dx : float
+        Spatial grid spacing (assume dx=dy=dz).
+    KX, KY, KZ : np.ndarray (3D)
+        Momentum-space grids, shape (N, N, N).
     hbar : float
         Planck's constant (reduced).
     m : float
-        Particle mass.
-    dx : float
-        Spatial grid spacing.
-    
+        Mass of the particle.
+
     Returns
     -------
     E : float
-        Total energy expectation value.
+        Total energy expectation value (scalar).
     """
-
-    # Potential energy in position space
+    # 1) Potential energy
     prob_density = np.abs(psi)**2
-    E_potential = np.sum(prob_density * V) * dx
+    volume_element = dx**3  # in 3D
+    E_potential = np.sum(prob_density * V) * volume_element
 
-    # Kinetic energy in momentum space
-    psi_k = np.fft.fft(psi)
-    # Normalization for forward and inverse FFT might differ (depends on convention)
-    # We'll assume the standard numpy convention
-    # The factor of 1/N (or dx, etc.) might be needed for strict normalization.
-    # For an L2-normalized wave function, handle carefully. For demonstration:
-    T_operator = 0.5 * m**(-1) * (hbar * k)**2  / (2*hbar)
-    # Actually, the operator is (hbar^2 k^2) / (2m), let's be explicit:
-    T = (hbar**2 * k**2) / (2.0 * m)
-    psi_k_norm = psi_k / np.sqrt(len(psi_k))  # approximate normalization
+    # 2) Kinetic energy
+    #   T = (hbar^2 / 2m)(k_x^2 + k_y^2 + k_z^2)
+    #   <T> = ∫ psi*(r) T-operator psi(r) d^3r
+    # Implementation: go to momentum space, multiply by T(k).
+    psi_k = np.fft.fftn(psi)
+    # For standard numpy FFT, no direct 1/N factor ifftn, but wavefunction normalization is tricky.
+    # We'll do a simple approximate approach:
+    T_of_k = (hbar**2 / (2.0*m)) * (KX**2 + KY**2 + KZ**2)
+    # The "prob density" in k-space is |psi_k|^2, though you might need to handle scaling carefully.
 
-    prob_density_k = np.abs(psi_k_norm)**2
-    # Summation in k-space
-    dk = 2.0 * np.pi / ((x[-1] - x[0]) / (len(x)/(len(x)-1)))  # approximate if needed
-    E_kinetic = np.sum(prob_density_k * T) * dk
+    # Weighted sum in k-space with factor dk^3 ~ (2*pi/L)^3
+    # We'll approximate with no additional normalization for simplicity:
+    prob_density_k = np.abs(psi_k)**2
+    # The "k-space volume" factor is (2pi / (N dx))^3, so let's estimate:
+    dk = 2.0 * np.pi / (N * dx)  # approximate spacing in each dimension
+    d3k = dk**3
 
-    # Total energy
+    E_kinetic = np.sum(prob_density_k * T_of_k) * d3k
+
+    # 3) Total energy
     E = E_kinetic + E_potential
     return E
 

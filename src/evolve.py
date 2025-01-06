@@ -1,21 +1,21 @@
 import numpy as np
 
-def evolve_wavefunction(psi, V, dt, dx, k, hbar, m):
+def evolve_wavefunction(psi, V, dt, dx, KX, KY, KZ, hbar, m):
     """
-    Evolve the wavefunction by one time step using the split-operator method.
-    
+    Evolve the 3D wavefunction by one time step using the split-operator method.
+
     Parameters
     ----------
-    psi : np.ndarray
-        Wave function in position space.
-    V : np.ndarray
-        Potential array in position space.
+    psi : np.ndarray (3D)
+        Wave function in position space, shape (N, N, N).
+    V : np.ndarray (3D)
+        Potential array in position space, shape (N, N, N).
     dt : float
         Time step.
     dx : float
-        Spatial grid spacing.
-    k : np.ndarray
-        Momentum-space grid.
+        Spatial grid spacing (assuming dx=dy=dz).
+    KX, KY, KZ : np.ndarray (3D)
+        Momentum-space grid arrays, shape (N, N, N).
     hbar : float
         Reduced Planck's constant.
     m : float
@@ -23,24 +23,31 @@ def evolve_wavefunction(psi, V, dt, dx, k, hbar, m):
 
     Returns
     -------
-    psi_new : np.ndarray
+    psi_new : np.ndarray (3D)
         Updated wave function in position space after one time step.
     """
 
-    # Half-step kinetic operator in momentum space
-    psi_k = np.fft.fft(psi)
-    kinetic_phase_half = np.exp(-1j * (hbar * (k**2) / (2*m)) * (dt/(2*hbar)))
-    psi_k *= kinetic_phase_half
-    psi = np.fft.ifft(psi_k)
+    # Kinetic operator: T = (hbar^2 / 2m) * (KX^2 + KY^2 + KZ^2)
+    # Full operator: exp(-i T dt / hbar)
+    # But we do half-step (split-operator)
+    T_factor = 0.5 * dt * (hbar**2 / (2.0 * m * hbar))  # factoring out some constants
+    kinetic_phase_half = np.exp(
+        -1j * T_factor * (KX**2 + KY**2 + KZ**2)
+    )
 
-    # Full potential step in position space
+    # 1) Half-step kinetic in momentum space
+    psi_k = np.fft.fftn(psi)
+    psi_k *= kinetic_phase_half
+    psi_mid = np.fft.ifftn(psi_k)
+
+    # 2) Full-step potential in real space
     potential_phase = np.exp(-1j * V * dt / hbar)
-    psi *= potential_phase
+    psi_mid *= potential_phase
 
-    # Another half-step kinetic operator
-    psi_k = np.fft.fft(psi)
+    # 3) Another half-step kinetic
+    psi_k = np.fft.fftn(psi_mid)
     psi_k *= kinetic_phase_half
-    psi_new = np.fft.ifft(psi_k)
+    psi_new = np.fft.ifftn(psi_k)
 
     return psi_new
 
