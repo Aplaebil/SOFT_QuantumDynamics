@@ -1,45 +1,57 @@
 """
-Example script for a 1D harmonic oscillator.
+Example script for a 3D harmonic oscillator.
 """
 
 import numpy as np
 import sys
-sys.path.append("../src")
 
-from initialize_system import initialize_system
-from potential import potential_function
-from evolve import evolve_wavefunction
-from visualize import visualize_results
+from src.initialize_system import initialize_system
+from src.potential import potential_function
+from src.evolve import evolve_wavefunction
+from src.visualize import visualize_results_3d
 
 def main():
-    # Parameters
+    # --- Simulation Parameters ---
     xmin, xmax = -10.0, 10.0
-    N = 2**10
-    x0 = 0.0
+    N = 64
+    x0, y0, z0 = 0.0, 0.0, 0.0
     sigma = 1.0
-    k0 = 0.0
+    kx0, ky0, kz0 = 0.0, 0.0, 0.0  # no initial momentum
+
     hbar = 1.0
     m = 1.0
-    omega = 1.0  # oscillator frequency
+    omega = 1.0  # oscillator frequency (assume same in x,y,z)
+    
     dt = 0.01
     total_time = 5.0
 
-    # Initialize system
-    x, dx, psi, k, dk = initialize_system(xmin, xmax, N, x0, sigma, k0, hbar, m)
+    # Initialize system (3D)
+    (X, Y, Z,
+     dx,
+     psi,
+     KX, KY, KZ,
+     dk) = initialize_system(
+         xmin, xmax, N,
+         x0, y0, z0,
+         sigma,
+         kx0, ky0, kz0,
+         hbar, m
+    )
 
-    # Harmonic potential
-    V = potential_function(x, potential_type='harmonic', m=m, omega=omega)
+    # 3D Harmonic potential
+    V = potential_function(X, Y, Z, potential_type='harmonic', m=m, omega=omega)
 
     num_steps = int(total_time / dt)
-    plot_interval = num_steps // 10
+    plot_interval = max(1, num_steps // 10)
 
     for step in range(num_steps):
-        psi = evolve_wavefunction(psi, V, dt, dx, k, hbar, m)
+        psi = evolve_wavefunction(psi, V, dt, dx, KX, KY, KZ, hbar, m)
 
         if step % plot_interval == 0:
-            visualize_results(x, psi, step, potential=V, save_fig=False)
+            visualize_results_3d(X, Y, psi, step, potential=V,
+                                 z_index=N//2, save_fig=False)
 
-    print("Harmonic oscillator simulation finished.")
+    print("3D Harmonic oscillator simulation finished.")
 
 if __name__ == "__main__":
     main()
