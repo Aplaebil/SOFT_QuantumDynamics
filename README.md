@@ -1,6 +1,3 @@
-Sure! Below is your complete **README.md** file. You can copy and paste it directly into your terminal or your preferred text editor and then upload it to GitHub.
-
-```markdown
 # **SOFT_QuantumDynamics**
 
 A Python project showcasing how to solve the **time-dependent Schrödinger equation** using the **Split-Operator Fourier Transform (SOFT)** method. Initially designed for **1D** quantum systems, it has since been **expanded** to cover **2D** and **3D** scenarios—letting you explore fascinating effects such as **quantum tunneling**, **harmonic oscillator dynamics**, **double-slit interference**, and beyond.
@@ -51,7 +48,6 @@ This repository provides a **numerical framework** for simulating quantum wave p
 ## **Project Structure**
 Here’s a typical folder layout:
 
-```
 SOFT_QuantumDynamics/
 ├── README.md                  # This file
 ├── requirements.txt           # Python dependencies
@@ -82,55 +78,52 @@ SOFT_QuantumDynamics/
 │   ├── test_visualize.py
 │   └── __init__.py
 └── .gitignore
-```
-
 ---
 
 ## **Installation**
 
 1. **Clone this repo**:
-   ```bash
+bash
    git clone https://github.com/your-username/SOFT_QuantumDynamics.git
    cd SOFT_QuantumDynamics
-   ```
+   
 2. **Create a virtual environment** (recommended):
-   ```bash
+bash
    python -m venv venv
    source venv/bin/activate      # macOS/Linux
    # or venv\Scripts\activate    # Windows
-   ```
+   
 3. **Install dependencies**:
-   ```bash
+bash
    pip install -r requirements.txt
-   ```
-   Make sure you have `numpy` and `matplotlib`. If you want the interactive widgets, install `ipywidgets` too.
+   
+Make sure you have `numpy` and `matplotlib`. If you want the interactive widgets, install `ipywidgets` too.
 
 ---
 
 ## **Quick Start**
 
 - **Default 1D Run**:
-  ```bash
+bash
   python src/main.py
-  ```
-  This runs a simple simulation (e.g., wave packet + barrier), then displays the final wavefunction plot.
+  
+This runs a simple simulation (e.g., wave packet + barrier), then displays the final wavefunction plot.
 
 - **Run an Example**:
-  ```bash
+bash
   python examples/run_barrier_potential.py
-  ```
-  You’ll see wave packet reflection and transmission plotted over time.
+  
+You’ll see wave packet reflection and transmission plotted over time.
 
 - **3D Simulation**:
   If you’ve converted `src/` to 3D, you can do something like:
-  ```bash
+bash
   python -m examples.run_barrier_potential_3d
-  ```
-  or adapt `src/main.py` to run a 3D scenario and do:
-  ```bash
+  
+or adapt `src/main.py` to run a 3D scenario and do:
+bash
   python src/main.py
-  ```
-
+  
 ---
 
 ## **How It Works**
@@ -186,10 +179,10 @@ Feel free to modify these for **3D** by using the new `initialize_system` and `p
 
 ## **Testing**
 1. **Discover and run all tests**:
-   ```bash
+bash
    python -m unittest discover tests
-   ```
-   Ensures that initialization, potential, time evolution, and visualization work correctly.
+   
+Ensures that initialization, potential, time evolution, and visualization work correctly.
 
 2. **Highlights**:
    - `test_initialize_system.py`: Checks grid/wavefunction shapes for 1D or 3D.  
@@ -220,34 +213,3 @@ This project is offered under the **MIT License**. See [LICENSE](./LICENSE) for 
 - **NumPy** and **Matplotlib** for their indispensable numerical and plotting capabilities.
 - **ipywidgets** for making interactive quantum explorations a breeze.
 - The wider open-source community for tutorials and references on FFT-based Schrödinger solvers.
-```
-
----
-
-### **Steps to Upload to GitHub:**
-
-1. **Initialize Git Repository** (if you haven't already):
-   ```bash
-   git init
-   ```
-
-2. **Add Remote Repository**:
-   ```bash
-   git remote add origin https://github.com/your-username/SOFT_QuantumDynamics.git
-   ```
-
-3. **Add Files and Commit**:
-   ```bash
-   git add .
-   git commit -m "Initial commit with README.md"
-   ```
-
-4. **Push to GitHub**:
-   ```bash
-   git push -u origin main
-   ```
-
-*Make sure to replace `your-username` with your actual GitHub username and ensure that the repository `SOFT_QuantumDynamics` exists on your GitHub account.*
-
----
-
