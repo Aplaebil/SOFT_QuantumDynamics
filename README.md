@@ -47,6 +47,7 @@ This project provides a **numerical framework** for studying quantum wave packet
 ## **Project Structure**
 A typical directory layout is:
 
+```
 SOFT_QuantumDynamics/
 ├── README.md                  # This file
 ├── requirements.txt           # Python dependencies
@@ -77,61 +78,54 @@ SOFT_QuantumDynamics/
 │   ├── test_visualize.py
 │   └── __init__.py
 └── .gitignore
-
+```
 
 ---
 
 ## **Installation**
 
 1. **Clone** this repository:
-   
-bash
+   ```bash
    git clone https://github.com/your-username/SOFT_QuantumDynamics.git
    cd SOFT_QuantumDynamics
-
+   ```
 2. **Set up** a virtual environment (recommended):
-   
-bash
+   ```bash
    python -m venv venv
    source venv/bin/activate    # On macOS/Linux
    # or venv\Scripts\activate  # On Windows
-
+   ```
 3. **Install** required packages:
-   
-bash
+   ```bash
    pip install -r requirements.txt
-
-   This should include numpy, matplotlib, and optionally ipywidgets for interactive notebooks.
+   ```
+   This should include `numpy`, `matplotlib`, and optionally `ipywidgets` for interactive notebooks.
 
 ---
 
 ## **Quick Start**
 
 - **Run a default 1D simulation**:
-  
-bash
+  ```bash
   python src/main.py
-
+  ```
   This simulates, by default, a wave packet tunneling through a barrier or something similar, then shows the final plot.
 
 - **Run an example** (e.g., 1D barrier):
-  
-bash
+  ```bash
   python examples/run_barrier_potential.py
-
+  ```
   This will generate **plots** at intervals and display them.
 
-- **Explore 3D** (if your src/ is extended to 3D):
-  
-bash
+- **Explore 3D** (if your `src/` is extended to 3D):
+  ```bash
   python -m examples.run_barrier_potential_3d
-
+  ```
   or
-  
-bash
+  ```bash
   python src/main.py
-
-  if you have changed the default main.py for 3D scenarios.
+  ```
+  if you have changed the default `main.py` for 3D scenarios.
 
 ---
 
@@ -164,15 +158,15 @@ bash
 
 ## **Examples**
 
-Located in the examples/ folder:
+Located in the `examples/` folder:
 
-- **run_barrier_potential.py**  
+- **`run_barrier_potential.py`**  
   Demonstrates **tunneling** in 1D. The wave packet partially transmits/reflected by a rectangular barrier.
 
-- **run_harmonic_oscillator.py**  
+- **`run_harmonic_oscillator.py`**  
   Shows how a **bound state** wave packet oscillates in the potential well.
 
-- **run_double_slit.py**  
+- **`run_double_slit.py`**  
   Illustrates **interference** patterns, akin to the classic double-slit experiment.
 
 *(For a 3D version, create or modify scripts with 3D grids, potentials, and calls to 3D methods.)*
@@ -181,10 +175,10 @@ Located in the examples/ folder:
 
 ## **Notebooks**
 
-- **SOFT_demo.ipynb**:  
+- **`SOFT_demo.ipynb`**:  
   A step-by-step demonstration (now adapted to 3D if desired) that initializes a wave packet, sets up a potential, and evolves it. Shows final plots.
 
-- **interactive_visualization.ipynb**:  
+- **`interactive_visualization.ipynb`**:  
   Uses **ipywidgets** sliders for real-time parameter changes (e.g., barrier height, slit spacing). Great for an interactive understanding of quantum phenomena in either 1D or 3D (with smaller grids).
 
 ---
@@ -192,16 +186,15 @@ Located in the examples/ folder:
 ## **Testing**
 
 1. **Run all tests**:
-   
-bash
+   ```bash
    python -m unittest discover tests
-
+   ```
    This checks correctness of **initialization**, **potential** definitions, **time evolution**, and **visualization**.
 
 2. **Key tests**:
-   - test_initialize_system.py ensures the wavefunction and grid shapes are correct (1D or 3D).
-   - test_evolve.py checks that the wavefunction evolves without errors, e.g., for a free particle.
-   - test_potential.py verifies the potential arrays match expectations (barrier regions, etc.).
+   - `test_initialize_system.py` ensures the wavefunction and grid shapes are correct (1D or 3D).
+   - `test_evolve.py` checks that the wavefunction evolves without errors, e.g., for a free particle.
+   - `test_potential.py` verifies the potential arrays match expectations (barrier regions, etc.).
 
 ---
 
@@ -214,11 +207,11 @@ bash
    - Always check your wavefunction is properly normalized (\(\int |\psi|^2 d^3x = 1\)) after initialization and at intervals, especially if you tweak the FFT conventions.
 
 3. **Plotting**  
-   - For 3D data, try slicing or advanced libraries (mayavi, ipyvolume, or plotly) for 3D volumetric rendering.
+   - For 3D data, try slicing or advanced libraries (`mayavi`, `ipyvolume`, or `plotly`) for 3D volumetric rendering.
 
 4. **Common Errors**  
-   - ModuleNotFoundError: Make sure you run pip install -r requirements.txt **inside** your virtual environment.  
-   - If Python can’t find your modules in src/, run scripts from the **project root** or use a setup.py “editable install” (pip install -e .).
+   - `ModuleNotFoundError`: Make sure you run `pip install -r requirements.txt` **inside** your virtual environment.  
+   - If Python can’t find your modules in `src/`, run scripts from the **project root** or use a `setup.py` “editable install” (`pip install -e .`).
 
 ---
 
@@ -231,3 +224,4 @@ This project is provided under the terms of the **MIT License** (see [LICENSE](.
 - **NumPy** and **Matplotlib** for core numeric and plotting.
 - **ipywidgets** for interactive controls.
 - Community resources and tutorials on **FFT-based Schrödinger solvers**.
+
