@@ -2,115 +2,116 @@
 
 ## 1. Introduction
 
-This project demonstrates the **Split-Operator Fourier Transform (SOFT)** method for numerically solving the **time-dependent Schrödinger equation** in one dimension. The SOFT method leverages **operator splitting** and the **Fast Fourier Transform (FFT)** to evolve a wave function under both potential and kinetic energy operators efficiently. While methods like Crank-Nicolson are more commonly taught, SOFT provides a unique blend of conceptual clarity and computational speed, particularly appealing for studying quantum phenomena such as tunneling, wave packet dispersion, and interference.
+This project demonstrates the **Split-Operator Fourier Transform (SOFT)** method for numerically solving the **time-dependent Schrödinger equation**, now extended up to **three dimensions**. The SOFT approach uses operator splitting alongside Fast Fourier Transforms (FFTs) to handle both the kinetic and potential energy updates efficiently. While methods like Crank-Nicolson are frequently used in textbooks, SOFT offers a streamlined workflow—especially handy when visualizing quantum phenomena such as **tunneling**, **wave packet dispersion**, and **multidimensional interference** patterns.
 
 ## 2. Project Overview
 
-The primary goal is to simulate and visualize the **time evolution of a quantum wave packet**. Specifically, we:
+Our main goal is to **simulate** and **visualize** the evolution of a quantum wave packet in up to three dimensions. Specifically:
 
-1. **Split the Hamiltonian** \(\hat{H}\) into:
-   - **Kinetic part**, \(\hat{T}\), acting in momentum space.
-   - **Potential part**, \(\hat{V}\), acting in position space.
-2. **Approximate the time-evolution operator** \( e^{-i\hat{H}\Delta t/\hbar} \) by sequentially applying partial updates in position and momentum space:
-   \[
-   e^{-i \hat{H} \Delta t / \hbar}
-   \approx
-   e^{-i \hat{T} \, \frac{\Delta t}{2\hbar}}
-   \; e^{-i \hat{V} \, \frac{\Delta t}{\hbar}}
-   \; e^{-i \hat{T} \, \frac{\Delta t}{2\hbar}}.
-   \]
-3. **Use FFT** to switch between position and momentum space, making it computationally efficient to apply each partial update.
+- We split the Hamiltonian \(\hat{H}\) into a **kinetic part** \(\hat{T}\) (treated in momentum space) and a **potential part** \(\hat{V}\) (treated in position space).  
+- We approximate the time-evolution operator,
+  \[
+    e^{-i\hat{H}\Delta t/\hbar} \;\approx\;
+    e^{-\frac{i\hat{T}\Delta t}{2\hbar}}\;
+    e^{-\frac{i\hat{V}\Delta t}{\hbar}}\;
+    e^{-\frac{i\hat{T}\Delta t}{2\hbar}},
+  \]
+  which is the **split-operator** strategy.  
+- We use FFTs to switch seamlessly between position and momentum space, making it computationally straightforward to apply each partial update.  
 
-This method’s **key strengths** include its:
-- **Flexibility** in handling various potentials.
-- **Intuitive visualization** of wave functions in both real (position) and momentum space.
-- **Scalability** to higher dimensions if desired.
+This method’s key strengths include:
+
+- **Flexibility** in handling various potentials (e.g., barriers, harmonic traps, or slits).  
+- **Straightforward visualization** of the wavefunction in both real space and momentum space.  
+- **Easy scalability** to 2D and 3D, allowing more complex quantum problems to be explored.
 
 ## 3. Methodology
 
 ### 3.1 System Setup
 
-- **Quantum System**: The project considers a **1D time-dependent Schrödinger equation**.  
-- **Spatial Discretization**: A finite interval \([x_\mathrm{min}, x_\mathrm{max}]\) is divided into \(N\) grid points.  
-- **Initial Wave Function**: Typically, a **Gaussian wave packet** is used:
-  \[
-  \psi(x,0)
-  \;=\;
-  A \exp\!\Bigl(-\frac{(x - x_0)^2}{2\sigma^2}\Bigr)\exp\!\bigl(i k_0 x\bigr),
-  \]
-  where \(x_0\) is the center, \(\sigma\) is the width, and \(k_0\) is the central wave number.
+- **Quantum System**: We consider the **time-dependent Schrödinger equation** in 1D, 2D, or 3D.  
+- **Spatial Discretization**: In 3D, for instance, we define a cubic region \([\mathrm{x_{min}}, \mathrm{x_{max}}]\times[\mathrm{y_{min}}, \mathrm{y_{max}}]\times[\mathrm{z_{min}}, \mathrm{z_{max}}]\) and discretize it into a grid of \((N_x \times N_y \times N_z)\) points.  
+- **Initial Wavefunction**: Often a **Gaussian wave packet** centered at \((x_0,y_0,z_0)\) with a chosen momentum \((k_{x0}, k_{y0}, k_{z0})\). For 1D, this simply reduces to \(x\)-only grids.
 
 ### 3.2 Time Evolution
 
 1. **Hamiltonian Splitting**  
-   The Hamiltonian \(\hat{H} = \hat{T} + \hat{V}\) is split into kinetic (\(\hat{T}\)) and potential (\(\hat{V}\)) parts.
-
+   We write \(\hat{H} = \hat{T} + \hat{V}\).  
+   
 2. **Split-Operator Approximation**  
-   Each time step \(\Delta t\) is divided so that the kinetic operator acts for half the time step, then the potential operator acts for the full time step, and the kinetic operator acts again for half the time step.
+   Each time step \(\Delta t\) is applied in three stages:  
+   \[
+     e^{-\frac{i\hat{T}\Delta t}{2\hbar}},\quad
+     e^{-\frac{i\hat{V}\Delta t}{\hbar}},\quad
+     e^{-\frac{i\hat{T}\Delta t}{2\hbar}},
+   \]
+   ensuring we apply **half a kinetic step**, then a **full potential step**, and **another half kinetic step**.
 
 3. **FFT & IFFT**  
-   - To apply \(\hat{T}\) in the momentum representation, the wave function \(\psi(x)\) is **Fourier-transformed** into \(\psi(p)\).  
-   - The kinetic phase factor \(e^{-i\hat{T}\Delta t/2\hbar}\) is then applied directly as a pointwise multiplication in momentum space.  
-   - An **inverse Fourier transform** brings \(\psi(p)\) back to \(\psi(x)\).  
-   - The potential phase factor \(e^{-i\hat{V}\Delta t/\hbar}\) is applied as a pointwise multiplication in position space.
+   - To apply \(\hat{T}\) (kinetic) in **momentum space**, we **Fourier-transform** the wavefunction \(\psi(\mathbf{x})\) to \(\psi(\mathbf{k})\).  
+   - We multiply by the **kinetic phase factor** \(e^{-i\hat{T}\Delta t/(2\hbar)}\) in momentum space.  
+   - An **inverse Fourier transform** returns \(\psi(\mathbf{k})\) to \(\psi(\mathbf{x})\).  
+   - The potential phase factor \(e^{-i\hat{V}\Delta t/\hbar}\) is applied in **position space** as a pointwise multiplication.
 
 ### 3.3 Example Potentials
-- **Barrier Potential**: A rectangular barrier of height \(V_0\) in the region \(\lvert x \rvert < a\).  
-- **Harmonic Oscillator**: \(V(x) = \tfrac12 m \omega^2 x^2\).  
-- **Double-Slit Potential**: Multiple slits or apertures for interference experiments.
+
+- **3D Barrier**: A rectangular or cubic barrier of height \(V_0\).  
+- **Harmonic Oscillator**: \(V(x,y,z) = \tfrac12 m(\omega^2_x x^2 + \omega^2_y y^2 + \omega^2_z z^2)\).  
+- **Double-Slit (2D or 3D)**: More elaborate potential “walls” with slits that mimic the classic interference setup.
 
 ## 4. Implementation Outline
 
-Even though you have your own code, a typical implementation includes:
+Even though you have your own code, here’s a typical **implementation roadmap**:
 
 1. **Initialization**  
-   - Define numerical parameters (\(N\), \(\Delta t\), total simulation time).  
-   - Create arrays for \(x\) and momentum \(p\).  
-   - Construct the initial wave packet \(\psi(x,0)\).
+   - Define numerical parameters \((N, \Delta t, \text{total simulation time})\).  
+   - Create arrays for position \((x, y, z)\) and momentum \((k_x, k_y, k_z)\).  
+   - Construct the initial wavefunction \(\psi(\mathbf{x}, 0)\).  
 
 2. **Potential Definition**  
-   - A function `potential_function(x)` that returns \(V(x)\) for the chosen scenario.
+   - Write a function (e.g., `potential_function(X, Y, Z)`) that returns \(V(\mathbf{x})\) for the chosen scenario.
 
 3. **Wavefunction Evolution**  
-   - A function `evolve_wavefunction(psi, V, dt, ...)` that:
-     1. Performs an FFT of \(\psi(x)\).  
-     2. Multiplies by the kinetic phase factor in momentum space.  
-     3. Performs an IFFT back to position space.  
-     4. Multiplies by the potential phase factor in position space.  
-     5. Repeats the half-kinetic step again.
+   - A function `evolve_wavefunction(psi, V, dt, ...)` that:  
+     1. Performs an FFT (or multidimensional FFT) of \(\psi(\mathbf{x})\).  
+     2. Multiplies by the **kinetic** phase factor in momentum space.  
+     3. IFFT back to position space.  
+     4. Multiplies by the **potential** phase factor in position space.  
+     5. Repeats the half-kinetic step.  
 
 4. **Visualization**  
-   - Plot \(|\psi(x,t)|^2\) at various time steps to observe wave packet evolution.  
-   - Optionally, perform and plot the FFT of \(\psi\) to observe momentum distribution changes over time.
+   - For **1D**, plot \(|\psi(x,t)|^2\) as a simple line.  
+   - For **2D** or **3D**, visualize **2D slices** or **density projections** of \(|\psi(\mathbf{x}, t)|^2\).  
+   - Optionally plot \(|\psi(\mathbf{k}, t)|^2\) in momentum space.
 
 ## 5. Results and Observations
 
-Through the project, one can explore:
-- **Quantum Tunneling**: A wave packet penetrating a finite potential barrier.  
-- **Wave Packet Spreading**: A free particle packet disperses over time.  
-- **Harmonic Oscillator**: Observe bound-state oscillations or energy eigenstates.  
-- **Interference Patterns**: Double-slit experiments reveal superposition effects.
+By running these simulations, you can explore:
 
-These simulations illustrate fundamental quantum behavior and reinforce the numerical concepts behind operator splitting and FFT-based methods.
+- **Quantum Tunneling**: Watch a wave packet encounter and sometimes penetrate a barrier.  
+- **Wave Packet Spreading**: A free particle’s Gaussian wavefunction widens over time, emphasizing dispersion.  
+- **Harmonic Oscillator**: See classical-like oscillations or examine bound-state modes.  
+- **Interference Patterns**: In multi-slit or higher-dimensional setups, interference arises from superposition.
+
+These results illustrate core quantum-mechanical effects and confirm the usefulness of **split-operator** methods with FFT for tackling both 1D and multi-dimensional problems.
 
 ## 6. Potential Extensions
 
-- **Higher Dimensions**: Extend the approach to 2D or 3D for more complex systems.  
-- **Different Potentials**: Incorporate time-dependent potentials or interactions for more advanced physics.  
-- **Performance Tuning**: Compare the efficiency of SOFT with other numerical methods like Crank-Nicolson.  
-- **Validation**: Use analytical solutions (e.g., harmonic oscillator) to gauge numerical accuracy.
+- **Higher Dimensions**: Your project might already do 2D or 3D, but you could push further—like simulating multiple particles or spin degrees of freedom.  
+- **Complex Potentials**: Explore time-dependent potentials or random landscapes (e.g., disorder).  
+- **Comparisons**: Evaluate efficiency against methods like **Crank-Nicolson** or explicit finite-difference schemes.  
+- **Validation**: Check numerical accuracy against known analytical solutions—like the harmonic oscillator eigenstates or plane-wave scattering.
 
 ## 7. Conclusion
 
-This project provides an effective and visually appealing approach to **simulate and analyze quantum wave packet dynamics**. By splitting the Hamiltonian and leveraging fast Fourier transforms, the SOFT method illustrates how position- and momentum-space updates can be combined for accurate and efficient time evolution. The method is **flexible** (handling various potentials), **straightforward** to implement with Python and NumPy, and **insightful** for understanding core quantum mechanical phenomena.
-
----
+This project highlights a **visually rich** and **conceptually straightforward** way to simulate wavefunction dynamics. By **splitting** the Hamiltonian and using **fast Fourier transforms**, we efficiently handle both kinetic and potential updates. The same code scales from 1D to 3D, offering a broad playground for studying quantum phenomena—whether it’s basic tunneling or high-dimensional interference patterns.
 
 **Recommended Next Steps**  
-- Tweak simulation parameters (grid spacing, time step) to find optimal stability and accuracy.  
-- Experiment with more exotic potentials (e.g., random or time-dependent) to probe the method’s versatility.  
-- Incorporate comparison with analytical results to verify correctness.
+- Tune your grid sizes and time steps to balance **accuracy** and **runtime**.  
+- Experiment with multi-dimensional potentials to see emergent effects (e.g., vortex patterns or ring-shaped traps in 2D/3D).  
+- Incorporate **real-time** interactive visualizations for deeper intuition and teaching.
 
-**Acknowledgments**  
-This report is based on the standard SOFT method framework widely used in computational physics. Special thanks to all contributors of open-source FFT libraries and Python scientific computing tools that make these simulations accessible to everyone.
+### Acknowledgments
+
+This report draws on common references in computational quantum mechanics, with a big thanks to the **Python** community for **NumPy**, **Matplotlib**, and other libraries that enable fast prototyping and stunning visualizations in just a few lines of code.
 
