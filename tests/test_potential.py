@@ -11,9 +11,7 @@ from src.potential import potential_function
 
 class TestPotential3D(unittest.TestCase):
     def test_free_potential_3d(self):
-        """
-        Check that the 'free' potential returns all zeros in 3D.
-        """
+
         N = 32
         x = np.linspace(-5, 5, N, endpoint=False)
         X, Y, Z = np.meshgrid(x, x, x, indexing='ij')
@@ -21,9 +19,7 @@ class TestPotential3D(unittest.TestCase):
         self.assertTrue(np.allclose(V, 0.0))
 
     def test_barrier_potential_3d(self):
-        """
-        Check that the 'barrier' potential is set to V0 inside |x|<a, |y|<a, |z|<a.
-        """
+
         N = 32
         x = np.linspace(-5, 5, N, endpoint=False)
         X, Y, Z = np.meshgrid(x, x, x, indexing='ij')
