@@ -1,7 +1,3 @@
-"""
-Entry point for running a default 3D simulation using the SOFT method.
-"""
-
 import numpy as np
 from initialize_system import initialize_system
 from potential import potential_function
