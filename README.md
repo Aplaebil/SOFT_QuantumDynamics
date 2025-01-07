@@ -1,6 +1,6 @@
 # **SOFT_QuantumDynamics**
 
-A Python project showcasing how to solve the **time-dependent Schrödinger equation** using the **Split-Operator Fourier Transform (SOFT)** method. Initially designed for **1D** quantum systems, it has since been **expanded** to cover **2D** and **3D** scenarios—letting you explore fascinating effects such as **quantum tunneling**, **harmonic oscillator dynamics**, **double-slit interference**, and beyond.
+A Python project showcasing how to solve the **time-dependent Schrödinger equation** using the **Split-Operator Fourier Transform (SOFT)** method. Initially designed for **1D** quantum systems, it has been **expanded** to cover **2D** and **3D** scenarios—letting you explore effects such as **quantum tunneling**, **harmonic oscillator dynamics**, **double-slit interference**, and beyond.
 
 ---
 
@@ -84,18 +84,18 @@ SOFT_QuantumDynamics/
 
 1. **Clone this repo**:
 
-git clone https://github.com/your-username/SOFT_QuantumDynamics.git
-cd SOFT_QuantumDynamics
+  - *git clone https://github.com/your-username/SOFT_QuantumDynamics.git*
+  - *cd SOFT_QuantumDynamics*
    
 2. **Create a virtual environment** (recommended):
 
-python -m venv venv
-source venv/bin/activate    # macOS/Linux
-or venv\Scripts\activate    # Windows
+  - *python -m venv venv*
+  - *source venv/bin/activate*    # macOS/Linux
+  - *or venv\Scripts\activate*    # Windows
    
 3. **Install dependencies**:
 
-pip install -r requirements.txt
+  - *pip install -r requirements.txt*
    
 ---
 
@@ -162,7 +162,7 @@ Inside the `examples/` folder:
 - **`run_double_slit.py`**:  
   Demonstrates **interference** patterns reminiscent of the famous double-slit experiment.
 
-Feel free to modify these for **3D** by using the new `initialize_system` and `potential_function` that handle 3D grids.
+Modify these for **3D** by using the new `initialize_system` and `potential_function` that handle 3D grids.
 
 ---
 
@@ -171,14 +171,14 @@ Feel free to modify these for **3D** by using the new `initialize_system` and `p
   A straightforward tutorial that walks you through setting parameters, evolving the wavefunction, and plotting results. Easily adapted for 3D by adjusting \(N\) and calls to 3D routines.
 
 - **`interactive_visualization.ipynb`**:  
-  Take advantage of **ipywidgets** to adjust potential parameters in real time, letting you explore how the wavefunction changes on the fly.
+  **ipywidgets** adjust potential parameters in real time, letting you explore how the wavefunction changes on the fly.
 
 ---
 
 ## **Testing**
 1. **Discover and run all tests**:
 bash
-   python -m unittest discover tests
+python -m unittest discover tests
    
 Ensures that initialization, potential, time evolution, and visualization work correctly.
 
