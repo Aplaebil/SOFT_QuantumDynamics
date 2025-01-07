@@ -15,8 +15,6 @@ A Python project showcasing how to solve the **time-dependent Schrödinger equat
 - [Notebooks](#notebooks)
 - [Testing](#testing)
 - [FAQ / Tips](#faq--tips)
-- [License](#license)
-- [Acknowledgments](#acknowledgments)
 
 ---
 
@@ -85,29 +83,27 @@ SOFT_QuantumDynamics/
 ## **Installation**
 
 1. **Clone this repo**:
-bash
-   git clone https://github.com/your-username/SOFT_QuantumDynamics.git
-   cd SOFT_QuantumDynamics
+
+git clone https://github.com/your-username/SOFT_QuantumDynamics.git
+cd SOFT_QuantumDynamics
    
 2. **Create a virtual environment** (recommended):
-bash
-   python -m venv venv
-   source venv/bin/activate      # macOS/Linux
-   # or venv\Scripts\activate    # Windows
+
+python -m venv venv
+source venv/bin/activate    # macOS/Linux
+or venv\Scripts\activate    # Windows
    
 3. **Install dependencies**:
-bash
-   pip install -r requirements.txt
-   
-Make sure you have `numpy` and `matplotlib`. If you want the interactive widgets, install `ipywidgets` too.
 
+pip install -r requirements.txt
+   
 ---
 
 ## **Quick Start**
 
 - **Default 1D Run**:
-bash
-  python src/main.py
+
+bash python src/main.py
   
 This runs a simple simulation (e.g., wave packet + barrier), then displays the final wavefunction plot.
 
@@ -205,13 +201,3 @@ Ensures that initialization, potential, time evolution, and visualization work c
    - Python can’t find local imports? Ensure you’re running scripts from the project root or that you’ve installed the package in editable mode (`pip install -e .`).
 
 ---
-
-## **License**
-This project is offered under the **MIT License**. See [LICENSE](./LICENSE) for details.
-
----
-
-## **Acknowledgments**
-- **NumPy** and **Matplotlib** for their indispensable numerical and plotting capabilities.
-- **ipywidgets** for making interactive quantum explorations a breeze.
-- The wider open-source community for tutorials and references on FFT-based Schrödinger solvers.
