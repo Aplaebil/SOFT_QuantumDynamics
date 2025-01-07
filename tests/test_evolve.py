@@ -13,10 +13,7 @@ from src.evolve import evolve_wavefunction
 
 class TestEvolve3D(unittest.TestCase):
     def test_evolve_free_particle_3d(self):
-        """
-        Simple check: if potential is zero in 3D, wave packet should just spread.
-        We'll just confirm code runs without error and shapes are valid.
-        """
+ 
         xmin, xmax = -5.0, 5.0
         N = 32
         x0, y0, z0 = 0.0, 0.0, 0.0
