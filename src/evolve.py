@@ -1,31 +1,6 @@
 import numpy as np
 
 def evolve_wavefunction(psi, V, dt, dx, KX, KY, KZ, hbar, m):
-    """
-    Evolve the 3D wavefunction by one time step using the split-operator method.
-
-    Parameters
-    ----------
-    psi : np.ndarray (3D)
-        Wave function in position space, shape (N, N, N).
-    V : np.ndarray (3D)
-        Potential array in position space, shape (N, N, N).
-    dt : float
-        Time step.
-    dx : float
-        Spatial grid spacing (assuming dx=dy=dz).
-    KX, KY, KZ : np.ndarray (3D)
-        Momentum-space grid arrays, shape (N, N, N).
-    hbar : float
-        Reduced Planck's constant.
-    m : float
-        Mass of the particle.
-
-    Returns
-    -------
-    psi_new : np.ndarray (3D)
-        Updated wave function in position space after one time step.
-    """
 
     # Kinetic operator: T = (hbar^2 / 2m) * (KX^2 + KY^2 + KZ^2)
     # Full operator: exp(-i T dt / hbar)
