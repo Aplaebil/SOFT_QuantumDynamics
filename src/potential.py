@@ -1,29 +1,7 @@
 import numpy as np
 
 def potential_function(X, Y, Z, potential_type='free', V0=0.0, a=1.0, m=1.0, omega=1.0):
-    """
-    Returns a 3D potential array for a given potential_type.
 
-    Parameters
-    ----------
-    X, Y, Z : np.ndarray (3D)
-        The 3D position grids, each shape (N, N, N).
-    potential_type : str
-        'free', 'harmonic', 'barrier', 'sphere', etc.
-    V0 : float
-        Potential scale (barrier height, etc.).
-    a : float
-        Characteristic length (barrier half-width, or radius, etc.).
-    m : float
-        Mass, for harmonic oscillator.
-    omega : float
-        Frequency, for harmonic oscillator.
-
-    Returns
-    -------
-    V : np.ndarray (3D)
-        Potential evaluated at each (x, y, z) point, shape (N, N, N).
-    """
     if potential_type == 'free':
         # V(r) = 0
         return np.zeros_like(X)
