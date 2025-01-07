@@ -2,7 +2,7 @@
 
 ## 1. Introduction
 
-This project demonstrates the **Split-Operator Fourier Transform (SOFT)** method for numerically solving the **time-dependent Schrödinger equation**, now extended up to **three dimensions**. The SOFT approach uses operator splitting alongside Fast Fourier Transforms (FFTs) to handle both the kinetic and potential energy updates efficiently. While methods like Crank-Nicolson are frequently used in textbooks, SOFT offers a streamlined workflow—especially handy when visualizing quantum phenomena such as **tunneling**, **wave packet dispersion**, and **multidimensional interference** patterns.
+This project demonstrates the **Split-Operator Fourier Transform (SOFT)** method for numerically solving the **time-dependent Schrödinger equation**, now extended up to **three dimensions**. The SOFT approach uses operator splitting alongside Fast Fourier Transforms (FFTs) to handle both the kinetic and potential energy updates efficiently. While methods like Crank-Nicolson are frequently used in textbooks, SOFT offers a streamlined workflow, especially handy when visualizing quantum phenomena such as **tunneling**, **wave packet dispersion**, and **multidimensional interference** patterns.
 
 ## 2. Project Overview
 
@@ -61,7 +61,7 @@ This method’s key strengths include:
 
 ## 4. Implementation Outline
 
-Even though you have your own code, here’s a typical **implementation roadmap**:
+**Implementation roadmap**:
 
 1. **Initialization**  
    - Define numerical parameters \((N, \Delta t, \text{total simulation time})\).  
@@ -86,7 +86,7 @@ Even though you have your own code, here’s a typical **implementation roadmap*
 
 ## 5. Results and Observations
 
-By running these simulations, you can explore:
+By running these simulations, we can explore:
 
 - **Quantum Tunneling**: Watch a wave packet encounter and sometimes penetrate a barrier.  
 - **Wave Packet Spreading**: A free particle’s Gaussian wavefunction widens over time, emphasizing dispersion.  
@@ -95,23 +95,7 @@ By running these simulations, you can explore:
 
 These results illustrate core quantum-mechanical effects and confirm the usefulness of **split-operator** methods with FFT for tackling both 1D and multi-dimensional problems.
 
-## 6. Potential Extensions
+## 6. Conclusion
 
-- **Higher Dimensions**: Your project might already do 2D or 3D, but you could push further—like simulating multiple particles or spin degrees of freedom.  
-- **Complex Potentials**: Explore time-dependent potentials or random landscapes (e.g., disorder).  
-- **Comparisons**: Evaluate efficiency against methods like **Crank-Nicolson** or explicit finite-difference schemes.  
-- **Validation**: Check numerical accuracy against known analytical solutions—like the harmonic oscillator eigenstates or plane-wave scattering.
-
-## 7. Conclusion
-
-This project highlights a **visually rich** and **conceptually straightforward** way to simulate wavefunction dynamics. By **splitting** the Hamiltonian and using **fast Fourier transforms**, we efficiently handle both kinetic and potential updates. The same code scales from 1D to 3D, offering a broad playground for studying quantum phenomena—whether it’s basic tunneling or high-dimensional interference patterns.
-
-**Recommended Next Steps**  
-- Tune your grid sizes and time steps to balance **accuracy** and **runtime**.  
-- Experiment with multi-dimensional potentials to see emergent effects (e.g., vortex patterns or ring-shaped traps in 2D/3D).  
-- Incorporate **real-time** interactive visualizations for deeper intuition and teaching.
-
-### Acknowledgments
-
-This report draws on common references in computational quantum mechanics, with a big thanks to the **Python** community for **NumPy**, **Matplotlib**, and other libraries that enable fast prototyping and stunning visualizations in just a few lines of code.
+This project highlights a **visually rich** and **conceptually straightforward** way to simulate wavefunction dynamics. By **splitting** the Hamiltonian and using **fast Fourier transforms**, we efficiently handle both kinetic and potential updates. The same code scales from 1D to 3D, offering a broad playground for studying quantum phenomena—whether it’s basic tunneling or high-dimensional interference patterns. This report draws on common references in computational quantum mechanics, with a big thanks to the **Python** community for **NumPy**, **Matplotlib**, and other libraries that enable fast prototyping and stunning visualizations in just a few lines of code.
 
