@@ -1,29 +1,7 @@
 import numpy as np
 
 def compute_total_energy(psi, V, dx, KX, KY, KZ, hbar, m):
-    """
-    Compute the 3D expectation value of total energy = T + V.
 
-    Parameters
-    ----------
-    psi : np.ndarray (3D)
-        Wave function in position space, shape (N, N, N).
-    V : np.ndarray (3D)
-        Potential array in position space, same shape.
-    dx : float
-        Spatial grid spacing (assume dx=dy=dz).
-    KX, KY, KZ : np.ndarray (3D)
-        Momentum-space grids, shape (N, N, N).
-    hbar : float
-        Planck's constant (reduced).
-    m : float
-        Mass of the particle.
-
-    Returns
-    -------
-    E : float
-        Total energy expectation value (scalar).
-    """
     # 1) Potential energy
     prob_density = np.abs(psi)**2
     volume_element = dx**3  # in 3D
