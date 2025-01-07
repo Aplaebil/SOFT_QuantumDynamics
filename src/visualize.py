@@ -2,24 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def visualize_results_3d(X, Y, psi, step, potential=None, z_index=None, save_fig=False):
-    """
-    Visualize a 2D cross-section of the 3D probability density (and optionally potential).
 
-    Parameters
-    ----------
-    X, Y : 2D slices of shape (N, N)
-        Slices from the 3D mesh. E.g. X[:,:,z_index], Y[:,:,z_index]
-    psi : 3D ndarray
-        The wave function in 3D.
-    step : int
-        Current time step index (for labeling).
-    potential : 3D ndarray, optional
-        Potential function in 3D. If given, we'll slice it as well.
-    z_index : int
-        Which z-slice to visualize. If None, use the middle slice: N//2.
-    save_fig : bool
-        If True, saves the figure to disk, else calls plt.show().
-    """
     N = psi.shape[0]  # assume Nx=Ny=Nz
     if z_index is None:
         z_index = N // 2  # pick central slice
