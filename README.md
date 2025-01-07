@@ -9,7 +9,6 @@ A Python project showcasing how to solve the **time-dependent Schrödinger equat
 - [Features](#features)
 - [Project Structure](#project-structure)
 - [Installation](#installation)
-- [Quick Start](#quick-start)
 - [How It Works](#how-it-works)
 - [Examples](#examples)
 - [Notebooks](#notebooks)
@@ -84,44 +83,19 @@ SOFT_QuantumDynamics/
 
 1. **Clone this repo**:
 
-  - *git clone https://github.com/your-username/SOFT_QuantumDynamics.git*
-  - *cd SOFT_QuantumDynamics*
+   - *git clone https://github.com/your-username/SOFT_QuantumDynamics.git*
+   - *cd SOFT_QuantumDynamics*
    
 2. **Create a virtual environment** (recommended):
 
-  - *python -m venv venv*
-  - *source venv/bin/activate*    # macOS/Linux
-  - *or venv\Scripts\activate*    # Windows
+   - *python -m venv venv*
+   - *source venv/bin/activate*    # macOS/Linux
+   - *or venv\Scripts\activate*    # Windows
    
 3. **Install dependencies**:
 
-  - *pip install -r requirements.txt*
+   - *pip install -r requirements.txt*
    
----
-
-## **Quick Start**
-
-- **Default 1D Run**:
-
-bash python src/main.py
-  
-This runs a simple simulation (e.g., wave packet + barrier), then displays the final wavefunction plot.
-
-- **Run an Example**:
-bash
-  python examples/run_barrier_potential.py
-  
-You’ll see wave packet reflection and transmission plotted over time.
-
-- **3D Simulation**:
-  If you’ve converted `src/` to 3D, you can do something like:
-bash
-  python -m examples.run_barrier_potential_3d
-  
-or adapt `src/main.py` to run a 3D scenario and do:
-bash
-  python src/main.py
-  
 ---
 
 ## **How It Works**
@@ -168,7 +142,7 @@ Modify these for **3D** by using the new `initialize_system` and `potential_func
 
 ## **Notebooks**
 - **`SOFT_demo.ipynb`**:  
-  A straightforward tutorial that walks you through setting parameters, evolving the wavefunction, and plotting results. Easily adapted for 3D by adjusting \(N\) and calls to 3D routines.
+  Let you set parameters, evolving the wavefunction, and plotting results. Easily adapted for 3D by adjusting \(N\) and calls to 3D routines.
 
 - **`interactive_visualization.ipynb`**:  
   **ipywidgets** adjust potential parameters in real time, letting you explore how the wavefunction changes on the fly.
@@ -176,11 +150,9 @@ Modify these for **3D** by using the new `initialize_system` and `potential_func
 ---
 
 ## **Testing**
-1. **Discover and run all tests**:
-bash
-python -m unittest discover tests
-   
-Ensures that initialization, potential, time evolution, and visualization work correctly.
+1. **Run all tests**:
+ - *bash python -m unittest discover tests*
+   - *Ensures that initialization, potential, time evolution, and visualization work correctly.*
 
 2. **Highlights**:
    - `test_initialize_system.py`: Checks grid/wavefunction shapes for 1D or 3D.  
@@ -194,7 +166,7 @@ Ensures that initialization, potential, time evolution, and visualization work c
    - If \(N\) is large in each dimension, you’ll end up with \(N^3\) points—this can get big fast. Start small (\(N=32\) or \(64\)) for demos.
 
 2. **Normalization**:  
-   - Always verify \(\int |\psi|^2\,d^3x \approx 1\). Slight deviations occur if you change the FFT normalization or time step.
+   - Verify \(\int |\psi|^2\,d^3x \approx 1\). Slight deviations occur if you change the FFT normalization or time step.
 
 3. **Common Errors**:  
    - Missing modules? Double-check you’re in the right virtual environment and run `pip install -r requirements.txt`.  
