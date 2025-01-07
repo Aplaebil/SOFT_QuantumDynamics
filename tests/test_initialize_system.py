@@ -11,9 +11,7 @@ from src.initialize_system import initialize_system
 
 class TestInitializeSystem3D(unittest.TestCase):
     def test_initialize_system_shapes_3d(self):
-        """
-        Check that X, Y, Z, and psi all have the correct 3D shape (N,N,N).
-        """
+  
         xmin, xmax = -10.0, 10.0
         N = 64
         x0, y0, z0 = 0.0, 0.0, 0.0
@@ -39,10 +37,7 @@ class TestInitializeSystem3D(unittest.TestCase):
         self.assertEqual(KZ.shape, (N, N, N))
 
     def test_wavefunction_normalization_3d(self):
-        """
-        Check that the initial wavefunction is (approximately) normalized in 3D.
-        The normalization integral in 3D is sum(|psi|^2) * dx^3.
-        """
+
         xmin, xmax = -5.0, 5.0
         N = 32
         x0, y0, z0 = 0.0, 0.0, 0.0
