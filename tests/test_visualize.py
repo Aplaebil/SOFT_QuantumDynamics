@@ -11,9 +11,7 @@ from src.visualize import visualize_results_3d
 
 class TestVisualize3D(unittest.TestCase):
     def test_visualize_3d(self):
-        """
-        Ensure the function runs without error for a 3D slice plot.
-        """
+
         # Create a small 3D wavefunction
         N = 16
         x = np.linspace(-5, 5, N, endpoint=False)
