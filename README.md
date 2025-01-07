@@ -89,8 +89,6 @@ SOFT_QuantumDynamics/
 2. **Create a virtual environment** (recommended):
 
    - *python -m venv venv*
-   - *source venv/bin/activate*    # macOS/Linux
-   - *or venv\Scripts\activate*    # Windows
    
 3. **Install dependencies**:
 
