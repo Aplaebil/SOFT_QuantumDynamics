@@ -1,7 +1,3 @@
-"""
-Interactive 3D Barrier Potential Simulation with Value Intervals.
-"""
-
 import numpy as np
 from src.initialize_system import initialize_system
 from src.potential import potential_function
