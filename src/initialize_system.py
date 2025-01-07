@@ -7,39 +7,7 @@ def initialize_system(
         kx0, ky0, kz0,
         hbar, m
     ):
-    """
-    Creates a 3D spatial grid and initializes a 3D Gaussian wave packet.
 
-    Parameters
-    ----------
-    xmin, xmax : float
-        Spatial domain boundaries for x, y, and z (assuming cube for simplicity).
-    N : int
-        Number of grid points along each axis (Nx = Ny = Nz = N).
-    x0, y0, z0 : float
-        Initial center of the wave packet in each dimension.
-    sigma : float
-        Standard deviation of the Gaussian (assuming same in x, y, z).
-    kx0, ky0, kz0 : float
-        Initial wave numbers (momenta/hbar) in x, y, z directions.
-    hbar : float
-        Reduced Planck's constant.
-    m : float
-        Mass of the particle.
-
-    Returns
-    -------
-    X, Y, Z : np.ndarray (3D)
-        Spatial grids for x, y, z, each shape (N, N, N).
-    dx : float
-        Spatial step size (dx = dy = dz).
-    psi : np.ndarray (3D)
-        Complex array of the initial wave function in 3D position space.
-    KX, KY, KZ : np.ndarray (3D)
-        Momentum-space grids (unshifted by default), each shape (N, N, N).
-    dkx : float
-        Momentum-space grid spacing in x (dkx = dky = dkz).
-    """
     # 1) Spatial grids along each axis
     x = np.linspace(xmin, xmax, N, endpoint=False)
     dx = (xmax - xmin) / N
