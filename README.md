@@ -5,44 +5,15 @@ A Python project showcasing how to solve the **time-dependent Schrödinger equat
 ---
 
 ## **Table of Contents**
-- [Overview](#overview)
-- [Features](#features)
 - [Project Structure](#project-structure)
 - [Installation](#installation)
-- [How It Works](#how-it-works)
 - [Examples](#examples)
-- [Notebooks](#notebooks)
 - [Testing](#testing)
-- [FAQ / Tips](#faq--tips)
-
----
-
-## **Overview**
-This project provides a **numerical framework** for studying quantum wave packet evolution under various **potentials** in **1D** or **3D**. Using the **split-operator** approach:
-1. We **split** the Hamiltonian into kinetic (\(\hat{T}\)) and potential (\(\hat{V}\)) parts.
-2. We apply each part in the **appropriate space** (momentum- vs. position-space) using **Fast Fourier Transforms** (FFT).
-3. We repeat these small time steps to observe **wavefunction dynamics** such as tunneling, interference, bound states, etc.
-
----
-
-## **Features**
-- **1D to 3D**: Fully supports 1D simulations; extended code supports multi-dimensional grids (\(x, y, z\)).
-- **Potentials**:
-  - *Free Particle*
-  - *Barrier* (or “box”)
-  - *Harmonic Oscillator*
-  - *Double-slit* (1D analogy or a 3D version)
-- **FFT-based** Kinetic Operator: Efficiently handles the kinetic term in momentum-space.
-- **Visualization**:
-  - 1D: Probability density vs. position
-  - 3D: 2D slices of \(|\psi(x,y,z)|^2\), cross-sections, or contour plots
-- **Interactive**: Jupyter notebooks with *ipywidgets* for real-time parameter adjustments.
-- **Testing**: A suite of **unit tests** ensuring stable, correct numerical results.
 
 ---
 
 ## **Project Structure**
-A typical directory layout is:
+he directory layout is:
 
 ```
 SOFT_QuantumDynamics/
@@ -50,7 +21,7 @@ SOFT_QuantumDynamics/
 ├── requirements.txt           # Python dependencies
 ├── LICENSE                    # License file
 ├── docs/
-│   └── report.md              # Additional documentation or write-ups
+│   └── report.md              # Additional documentn-ups
 ├── examples/
 │   ├── run_barrier_potential.py     # 1D barrier simulation example
 │   ├── run_harmonic_oscillator.py   # 1D harmonic oscillator example
@@ -59,7 +30,7 @@ SOFT_QuantumDynamics/
 │   ├── SOFT_demo.ipynb              # Jupyter notebook demo (1D or 3D version)
 │   └── interactive_visualization.ipynb  # Interactive sliders for barrier, etc.
 ├── data/
-│   └── results/                # Folder for storing output figures/animations
+│   └── results/                # Folder for storing output figu
 ├── src/
 │   ├── __init__.py
 │   ├── main.py                 # Default entry point for a quick simulation
@@ -82,45 +53,33 @@ SOFT_QuantumDynamics/
 ## **Installation**
 
 1. **Clone this repo**:
+```
 
-   - *git clone https://github.com/your-username/SOFT_QuantumDynamics.git*
-   - *cd SOFT_QuantumDynamics*
-   
-2. **Create a virtual environment** (recommended):
+git clone https://github.com/your-username/SOFT_QuantumDynamics.git
+cd SOFT_QuantumDynamics
 
-   - *python -m venv venv*
-   
+```
+2. **Virtual environment**:
+```
+python -m venv venv # Create virtual environment
+deactivate # Deactivate virtual environment
+
+```   
 3. **Install dependencies**:
+```
+pip install -r requirements.txt
 
-   - *pip install -r requirements.txt*
-   
+```
+4. **Testing**:
+```
+
+export PYTHONPATH=$(pwd) # To include the project root directory (where the src folder resides)
+python3 examples/run_harmonic_oscillator.py
+python3 examples/run_double_slit.py
+
+```   
 ---
 
-## **How It Works**
-
-1. **Initialization**:
-   - Set up a **spatial grid** (1D or 3D).
-   - Define the initial **wave packet** with chosen center, width, and momentum.
-
-2. **Split the Hamiltonian** (\(\hat{H} = \hat{T} + \hat{V}\)):
-   - **Kinetic** part is handled in **momentum-space** (FFT).
-   - **Potential** part is directly multiplied in **position-space**.
-
-3. **Time Evolution**:
-   \[
-   e^{-\tfrac{i}{\hbar}\hat{H}\Delta t} 
-   \approx 
-   e^{-\tfrac{i}{2\hbar}\hat{T}\Delta t} \,
-   e^{-\tfrac{i}{\hbar}\hat{V}\Delta t} \,
-   e^{-\tfrac{i}{2\hbar}\hat{T}\Delta t}.
-   \]
-   Repeating this sequence lets us watch the wave packet evolve step by step.
-
-4. **Visualization**:
-   - 1D plots of \(|\psi(x)|^2\) vs. \(x\).  
-   - 3D data displayed as **2D slices** or advanced volumetric plots.
-
----
 
 ## **Examples**
 Inside the `examples/` folder:
@@ -138,36 +97,3 @@ Modify these for **3D** by using the new `initialize_system` and `potential_func
 
 ---
 
-## **Notebooks**
-- **`SOFT_demo.ipynb`**:  
-  Let you set parameters, evolving the wavefunction, and plotting results. Easily adapted for 3D by adjusting \(N\) and calls to 3D routines.
-
-- **`interactive_visualization.ipynb`**:  
-  **ipywidgets** adjust potential parameters in real time, letting you explore how the wavefunction changes on the fly.
-
----
-
-## **Testing**
-1. **Run all tests**:
- - *bash python -m unittest discover tests*
-   - *Ensures that initialization, potential, time evolution, and visualization work correctly.*
-
-2. **Highlights**:
-   - `test_initialize_system.py`: Checks grid/wavefunction shapes for 1D or 3D.  
-   - `test_evolve.py`: Ensures stable time evolution, e.g., free-particle spreading.  
-   - `test_potential.py`: Confirms your potential function is correct (barrier regions, etc.).  
-
----
-
-## **FAQ / Tips**
-1. **Large 3D Grids**:  
-   - If \(N\) is large in each dimension, you’ll end up with \(N^3\) points—this can get big fast. Start small (\(N=32\) or \(64\)) for demos.
-
-2. **Normalization**:  
-   - Verify \(\int |\psi|^2\,d^3x \approx 1\). Slight deviations occur if you change the FFT normalization or time step.
-
-3. **Common Errors**:  
-   - Missing modules? Double-check you’re in the right virtual environment and run `pip install -r requirements.txt`.  
-   - Python can’t find local imports? Ensure you’re running scripts from the project root or that you’ve installed the package in editable mode (`pip install -e .`).
-
----
