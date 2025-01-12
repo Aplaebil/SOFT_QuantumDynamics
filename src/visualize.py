@@ -5,7 +5,7 @@ def visualize_results_3d(X, Y, psi, step, potential=None, z_index=None, save_fig
 
     N = psi.shape[0]  # assume Nx=Ny=Nz
     if z_index is None:
-        z_index = N // 2  # pick central slice
+        z_index = N // 2  # pick central
 
     # Probability density slice
     psi_slice = psi[:, :, z_index]
@@ -29,7 +29,7 @@ def visualize_results_3d(X, Y, psi, step, potential=None, z_index=None, save_fig
                cmap='viridis', aspect='equal')
     plt.colorbar(label='|psi|^2')
 
-    # Overlay potential if provided
+    # Overlay potential
     if potential is not None:
         V_slice = potential[:, :, z_index]
         V_min, V_max = np.min(V_slice), np.max(V_slice)
