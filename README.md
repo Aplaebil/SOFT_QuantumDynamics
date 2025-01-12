@@ -8,12 +8,11 @@ A Python project showcasing how to solve the **time-dependent Schrödinger equat
 - [Project Structure](#project-structure)
 - [Installation](#installation)
 - [Examples](#examples)
-- [Testing](#testing)
 
 ---
 
 ## **Project Structure**
-he directory layout is:
+The directory layout is:
 
 ```
 SOFT_QuantumDynamics/
@@ -54,29 +53,24 @@ SOFT_QuantumDynamics/
 
 1. **Clone this repo**:
 ```
-
 git clone https://github.com/your-username/SOFT_QuantumDynamics.git
 cd SOFT_QuantumDynamics
-
 ```
 2. **Virtual environment**:
 ```
 python -m venv venv # Create virtual environment
 deactivate # Deactivate virtual environment
-
 ```   
 3. **Install dependencies**:
 ```
 pip install -r requirements.txt
-
 ```
 4. **Testing**:
 ```
-
 export PYTHONPATH=$(pwd) # To include the project root directory (where the src folder resides)
+python3 examples/run_barrier_potential.py
 python3 examples/run_harmonic_oscillator.py
 python3 examples/run_double_slit.py
-
 ```   
 ---
 
@@ -92,8 +86,6 @@ Inside the `examples/` folder:
 
 - **`run_double_slit.py`**:  
   Demonstrates **interference** patterns reminiscent of the famous double-slit experiment.
-
-Modify these for **3D** by using the new `initialize_system` and `potential_function` that handle 3D grids.
 
 ---
 
