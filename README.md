@@ -59,6 +59,7 @@ cd SOFT_QuantumDynamics
 2. **Virtual environment**:
 ```
 python -m venv venv # Create virtual environment
+source venv/bin/activate # Activate virtual environment
 deactivate # Deactivate virtual environment
 ```   
 3. **Install dependencies**:
